@@ -1,4 +1,3 @@
-TODO: good program name, not foo
 # POSIX unlink/open violation on Mac OS
 
 Open a file using O_EXLOCK, unlink the file, close the FD.
@@ -20,7 +19,7 @@ You will need rust and cargo. First run
 The gen.py program generates a set of sample files for the rust program to act
 on. A good way to run this to make the problem occur is:
 
-    python gen.py 50; ./target/debug/foo&; ./target/debug/foo
+    python gen.py 50; ./target/debug/osx-unlink-violation&; ./target/debug/osx-unlink-violation
 
 The problem occurs infrequently. The tell-tale is the `!!!...` prefixed call to
 unlink that results in an error, indicating the second process was able to open
@@ -29,8 +28,8 @@ the file, but not unlink it. The output has the process PID as the first line.
 The openclosesnoop dtrace script is a modification of Brendan Gregg's opensnoop
 that ships with OSX. It probes close and unlink in addition to open. Run as:
 
-    sudo ./openclosesnoop -a -g -F -n foo
+    sudo ./openclosesnoop -a -g -F -n osx-unlink-violation
 
-before starting foo to see the activity indicating the violation.
+before starting osx-unlink-violation to see the activity indicating the violation.
 
 Full details in the blog post TODO.
