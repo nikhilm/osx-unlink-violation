@@ -1,0 +1,22 @@
+Process output:
+$ python gen.py 50; ./target/debug/nonblock&;./target/debug/nonblock                                                                                                 master 
+[1] 79011
+79011 Opened "./0.sample"
+79012 Opened "./0.sample"
+79011 Opened "./1.sample"
+!!!!! 79012 Could not remove "./0.sample" Error { repr: Os { code: 2, message: "No such file or directory" } }
+
+DTrace output:
+$ sudo ./openclosesnoop -a -g -F -n nonblock
+open 57958440341    2017 Aug  3 20:58:05 605572857  79012   3 0x01100004   0 .                    nonblock\0
+open 57958449740    2017 Aug  3 20:58:05 605572857  79011   3 0x01000024   0 ./0.sample           nonblock\0
+unlink 57958452261    2017 Aug  3 20:58:05 605572857  79011   0 0   0 ./0.sample           nonblock\0
+close 57958452307    2017 Aug  3 20:58:05 605572857  79011   0 0   0 3 nonblock\0
+open 57958452354    2017 Aug  3 20:58:05 605572857  79012   3 0x01000024   0 ./0.sample           nonblock\0
+open 57958452419    2017 Aug  3 20:58:05 605572857  79011   3 0x01000024   0 ./1.sample           nonblock\0
+unlink 57958454662    2017 Aug  3 20:58:05 605572857  79011   0 0   0 ./1.sample           nonblock\0
+close 57958454727    2017 Aug  3 20:58:05 605572857  79011   0 0   0 3 nonblock\0
+unlink 57958454769    2017 Aug  3 20:58:05 605572857  79012  -1 0   2 ./0.sample           nonblock\0
+open 57958454855    2017 Aug  3 20:58:05 605572857  79011   3 0x01000024   0 ./10.sample          nonblock\0
+close 57958454884    2017 Aug  3 20:58:05 605572857  79012   0 0   0 3 nonblock\0
+
