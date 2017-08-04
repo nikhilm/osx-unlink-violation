@@ -1,0 +1,7 @@
+[package]
+name = "nonblock"
+version = "0.1.0"
+authors = ["Nikhil Marathe <nsm.nikhil@gmail.com>"]
+
+[dependencies]
+libc = {}
