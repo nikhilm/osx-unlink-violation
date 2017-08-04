@@ -1,8 +1,18 @@
 extern crate libc;
 
 use std::fs::{DirEntry, OpenOptions};
+use std::path::Path;
 use std::os::unix::fs::OpenOptionsExt;
+use std::os::macos::fs::MetadataExt;
 use std::io::{Result, Read};
+
+fn link_count<P: AsRef<Path>>(path: P) -> Result<u64> {
+    std::fs::metadata(path).map(|x| x.st_nlink())
+}
+
+fn link_count_file(f: std::fs::File) -> Result<u64> {
+    f.metadata().map(|x| x.st_nlink())
+}
 
 fn main() {
     let pid = unsafe { libc::getpid() };
@@ -34,6 +44,10 @@ fn main() {
                 }
             }
             std::thread::sleep(std::time::Duration::from_millis(2));
+            println!("{} Link count {:?} {:?}",
+                     pid,
+                     entry.path(),
+                     link_count(entry.path()));
             match std::fs::remove_file(entry.path()) {
                 Ok(_) => {}
                 Err(err) => {
@@ -43,6 +57,10 @@ fn main() {
                              err);
                 }
             }
+            println!("{} Link count after removal {:?} {:?}",
+                     pid,
+                     entry.path(),
+                     link_count_file(file.unwrap()));
         }
     }
 }
