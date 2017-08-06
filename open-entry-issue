@@ -1,0 +1,8 @@
+126740840573   75938 open entry ./7.sample
+open   126740840651   2017 Aug  6 10:35:49 605572857  75938   3 0x01000024   0 ./7.sample           osx-unlink-viola\0
+126740843072   75939 open entry ./7.sample
+unlink 126740843128   2017 Aug  6 10:35:49 605572857  75938   0 0   0 ./7.sample           osx-unlink-viola\0
+close  126740843155   2017 Aug  6 10:35:49 605572857  75938   0 0   0 3 osx-unlink-viola\0
+open   126740843189   2017 Aug  6 10:35:49 605572857  75939   3 0x01000024   0 ./7.sample           osx-unlink-viola\0
+unlink 126740845607   2017 Aug  6 10:35:49 605572857  75939  -1 0   2 ./7.sample           osx-unlink-viola\0
+close  126740845698   2017 Aug  6 10:35:49 605572857  75939   0 0   0 3 osx-unlink-viola\0

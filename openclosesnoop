@@ -215,6 +215,13 @@ fi
 	(OPT_name == 1 && execname == strstr(execname, NAME))? self->ok = 1 : 1;
 	(OPT_pid == 1 && PID == pid) ? self->ok = 1 : 1;
 	/* OPT_file is checked on return to ensure pathp is mapped */
+
+ }
+
+ syscall::open:entry
+ /self->ok/
+ {
+  printf("%-14d %d open entry %s\n", timestamp/1000, pid, copyinstr(arg0));
  }
 
  /* SOLARIS: syscall::open:return, syscall::open64:return */
@@ -249,7 +256,7 @@ fi
 	self->ok = 0;
  }
 
- syscall::close:entry
+ syscall::close:entry,syscall::close_nocancel:entry
  {
 	self->close_ok = FILTER ? 0 : 1;
 
@@ -260,7 +267,7 @@ fi
 	self->close_fd = arg0;
  }
 
- syscall::close:return
+ syscall::close:return,syscall::close_nocancel:return
  /self->close_ok/
  {
 
